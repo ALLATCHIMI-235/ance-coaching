@@ -70,8 +70,8 @@ nav.scrolled{background:rgba(18,18,30,.96);backdrop-filter:blur(20px);border-bot
 @keyframes heroZoom{from{transform:scale(1)}to{transform:scale(1.06)}}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(160deg,rgba(18,18,30,.6) 0%,rgba(18,18,30,.88) 100%)}
 .hero-particles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
-.particle{position:absolute;background:var(--gold);border-radius:50%;opacity:0;animation:floatUp var(--dur,8s) var(--delay,0s) infinite linear}
-@keyframes floatUp{0%{opacity:0;transform:translateY(100vh) scale(0)}10%{opacity:.6}90%{opacity:.2}100%{opacity:0;transform:translateY(-10vh) scale(1)}}
+.particle{position:absolute;border-radius:50%;opacity:0;animation:floatBubble var(--dur,10s) var(--delay,0s) infinite ease-in-out;background:radial-gradient(circle at 35% 35%,rgba(240,216,152,.6),rgba(201,168,76,.25));border:1px solid rgba(201,168,76,.5);box-shadow:inset 0 0 6px rgba(255,255,255,.15)}
+@keyframes floatBubble{0%{opacity:0;transform:translateY(0) translateX(0) scale(.7)}10%{opacity:.9}50%{transform:translateY(-45vh) translateX(var(--drift,20px)) scale(1)}90%{opacity:.6}100%{opacity:0;transform:translateY(-95vh) translateX(calc(var(--drift,20px)*2)) scale(.8)}}15%{opacity:.95}85%{opacity:.55}100%{opacity:0;transform:translateY(-10vh) scale(1)}}
 .hero-content{position:relative;z-index:2;text-align:center;padding:120px 2rem 80px;max-width:820px;margin:0 auto}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(201,168,76,.35);color:var(--gold-l);font-size:11px;letter-spacing:.2em;text-transform:uppercase;padding:6px 18px;border-radius:30px;margin-bottom:2rem;animation:fadeDown .8s .2s both}
 @keyframes fadeDown{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:none}}
@@ -107,7 +107,7 @@ section{padding:96px 2rem}
 .divider{height:1px;background:var(--border);margin:2rem 0}
 /* COUNTERS */
 .counters{background:var(--dark2);padding:60px 2rem}
-.counters-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;max-width:960px;margin:0 auto;text-align:center}
+.counters-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:960px;margin:0 auto;text-align:center}
 .counter-item{padding:1.5rem}
 .counter-n{font-family:'Cormorant Garamond',serif;font-size:3.2rem;color:var(--gold);font-weight:600;line-height:1;display:block}
 .counter-l{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:.12em;text-transform:uppercase;margin-top:.4rem}
@@ -179,7 +179,7 @@ section{padding:96px 2rem}
 .tri-box-title{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:500;margin-bottom:.75rem}
 .tri-box.drama .tri-box-title{color:#e74c3c}
 .tri-box.power .tri-box-title{color:var(--gold)}
-.tri-row{font-size:13px;color:rgba(255,255,255,.5);padding:5px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.tri-row{font-size:12px;color:rgba(255,255,255,.6);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.06);line-height:1.5}
 .tri-row:last-child{border:none}
 .tri-arrow{font-size:1.8rem;color:rgba(201,168,76,.3);text-align:center}
 /* SERVICES */
@@ -209,11 +209,14 @@ section{padding:96px 2rem}
 .faq-item:hover{border-color:rgba(201,168,76,.3)}
 .faq-q{padding:1rem 1.25rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;font-weight:500;font-size:14px;color:var(--dark);background:var(--white);transition:background .2s;user-select:none}
 .faq-q:hover{background:var(--cream)}
+
 .faq-icon{font-size:18px;color:var(--gold);transition:transform .3s;flex-shrink:0;margin-left:.75rem}
 .faq-item.open .faq-icon{transform:rotate(45deg)}
+
 .faq-a{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.22,1,.36,1)}
-.faq-item.open .faq-a{max-height:300px}
-.faq-a-inner{padding:.75rem 1.25rem 1.25rem;font-size:13px;color:var(--muted);line-height:1.75;border-top:1px solid var(--border-l)}
+.faq-item.open .faq-a{max-height:400px}
+
+.faq-a-inner{padding:.75rem 1.25rem 1.25rem;font-size:13px;color:var(--muted);line-height:1.75;border-top:1px solid var(--border-l);display:block}
 /* METHODS */
 .methods-section{background:var(--cream)}
 .methods-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(205px,1fr));gap:.75rem;margin-top:2rem}
@@ -296,7 +299,7 @@ footer{background:var(--dark);padding:3rem 2rem 2rem}
 .footer-col-title{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.3);margin-bottom:1rem}
 .footer-col a{display:block;font-size:13px;color:rgba(255,255,255,.4);margin-bottom:.5rem;transition:color .2s}
 .footer-col a:hover{color:var(--gold-l)}
-.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.05)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;padding-top:1.5rem}
 .footer-copy{font-size:11px;color:rgba(255,255,255,.2)}
 .footer-cert{display:flex;gap:.4rem;flex-wrap:wrap}
 .footer-cert span{font-size:10px;padding:3px 8px;border-radius:20px;background:rgba(255,255,255,.04);color:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.06)}
@@ -342,16 +345,16 @@ footer{background:var(--dark);padding:3rem 2rem 2rem}
     <div class="hero-eyebrow">Coach professionnel certifi&eacute; &nbsp;&middot;&nbsp; ACTP &middot; RNCP niv. 6</div>
     <h1>L&rsquo;art d&rsquo;exprimer<br><em>sa puissANCE</em></h1>
     <div class="hero-name">S&eacute;bastien ROSIER &nbsp;&middot;&nbsp; ANCE coaching &nbsp;&middot;&nbsp; P&eacute;rigueux</div>
-    <blockquote class="hero-quote">&laquo;&nbsp;La bienveillance engendre la confiance qui porte &agrave; la performance.&nbsp;&raquo; &mdash; S&eacute;bastien ROSIER</blockquote>
+    <blockquote class="hero-quote">&laquo;&nbsp;La PUISSANCE est la r&eacute;sultante d&rsquo;un sentiment de s&eacute;curit&eacute; int&eacute;rieure et de la conscience de ses propres capacit&eacute;s.&nbsp;&raquo;</blockquote>
     <div class="hero-btns">
       <button class="btn-primary" onclick="scroll2('services')">D&eacute;couvrir les prestations</button>
       <button class="btn-ghost" onclick="scroll2('contact')">Prendre rendez-vous</button>
     </div>
     <div class="hero-stats">
-      <div><div class="hero-stat-n">20+</div><div class="hero-stat-l">ans management</div></div>
+      <div><div class="hero-stat-n">20+</div><div class="hero-stat-l">ans d'exp&eacute;rience</div></div>
       <div><div class="hero-stat-n">ACTP</div><div class="hero-stat-l">Certifi&eacute;</div></div>
       <div><div class="hero-stat-n">Niv.6</div><div class="hero-stat-l">RNCP certifi&eacute;</div></div>
-      <div><div class="hero-stat-n">3+</div><div class="hero-stat-l">ans de pratique</div></div>
+      <div><div class="hero-stat-n">2021</div><div class="hero-stat-l">depuis</div></div>
     </div>
     <div class="hero-words"><span>PuissANCE</span><span>ConfiANCE</span><span>BienveillANCE</span><span>PerformANCE</span><span>RenaissANCE</span><span>EndurANCE</span><span>BrillANCE</span><span>Esp&eacute;rANCE</span><span>AbondANCE</span><span>Ind&eacute;pendANCE</span></div>
   </div>
@@ -361,8 +364,8 @@ footer{background:var(--dark);padding:3rem 2rem 2rem}
 
 <div class="counters" id="counters">
   <div class="counters-grid">
-    <div class="counter-item reveal delay-1"><span class="counter-n" data-target="20">0</span><div class="counter-l">ans d&rsquo;exp&eacute;rience manag&eacute;riale</div></div>
-    <div class="counter-item reveal delay-2"><span class="counter-n" data-target="20000" data-suffix="+">0</span><div class="counter-l">membres certifi&eacute;s dans le monde</div></div>
+    <div class="counter-item reveal delay-1"><span class="counter-n" data-target="20" data-suffix="+">0</span><div class="counter-l">ans d&rsquo;exp&eacute;rience</div></div>
+    
     <div class="counter-item reveal delay-3"><span class="counter-n" data-target="8">0</span><div class="counter-l">comp&eacute;tences certifi&eacute;es</div></div>
     <div class="counter-item reveal delay-4"><span class="counter-n" data-target="600" data-suffix="+">0</span><div class="counter-l">collaborateurs manag&eacute;s (FROMARSAC)</div></div>
   </div>
@@ -396,8 +399,8 @@ footer{background:var(--dark);padding:3rem 2rem 2rem}
         <div class="sec-eyebrow">&Agrave; propos</div>
         <h2 class="sec-title">Passez de la victime<br>au h&eacute;ros de votre vie</h2>
         <div class="gold-line"></div>
-        <p class="sec-desc" style="margin-bottom:1.5rem">S&eacute;bastien ROSIER est coach professionnel certifi&eacute; ACTP et RNCP niveau&nbsp;6. Ing&eacute;nieur form&eacute; au CESI, il a pass&eacute; plus de <strong>20&nbsp;ans en management industriel</strong> chez FROMARSAC (groupe SAVENCIA &mdash; St&nbsp;Mo&circ;ret, Tartare, Chavroux), o&ugrave; il &eacute;tait <strong>Responsable Excellence Industrielle</strong> sur un site de 600&nbsp;collaborateurs.</p>
-        <p class="sec-desc" style="margin-bottom:2rem">Certifi&eacute; en coaching d&rsquo;&eacute;quipe et en Spirale Dynamique via <strong>Coaching Ways France</strong>, il pratique le coaching depuis 3&nbsp;ans et est co-contributeur du <em>Guide de Coaching Spiralien</em>. Il allie rigueur industrielle et bienveillance humaine pour des transformations durables.</p>
+        <p class="sec-desc" style="margin-bottom:1.5rem">S&eacute;bastien ROSIER est coach professionnel certifi&eacute; ACTP et RNCP niveau&nbsp;6. Ing&eacute;nieur form&eacute; au CESI, il a pass&eacute; plus de <strong>20+ ans en management industriel</strong> chez FROMARSAC (groupe SAVENCIA &mdash; St&nbsp;Mo&circ;ret, Tartare, Chavroux), o&ugrave; il &eacute;tait <strong>Responsable Excellence Industrielle</strong> sur un site de 600&nbsp;collaborateurs.</p>
+        <p class="sec-desc" style="margin-bottom:2rem">Certifi&eacute; en coaching d&rsquo;&eacute;quipe et en Spirale Dynamique via <strong>Coaching Ways France</strong>, il pratique le coaching depuis depuis 2021 et est co-contributeur du <em>Guide de Coaching Spiralien</em>. Il allie rigueur industrielle et bienveillance humaine pour des transformations durables.</p>
         <div class="about-pillars">
           <div class="pillar reveal delay-1"><div class="pillar-icon">&#9312;</div><div><div class="pillar-title">Bienveillance</div><div class="pillar-desc">Un espace de s&eacute;curit&eacute; pour explorer, questionner et se r&eacute;v&eacute;ler sans jugement ni pression.</div></div></div>
           <div class="pillar reveal delay-2"><div class="pillar-icon">&#9313;</div><div><div class="pillar-title">Prise de conscience</div><div class="pillar-desc">Identifier les croyances limitantes, les drivers et les sch&eacute;mas r&eacute;p&eacute;titifs pour les transformer.</div></div></div>
@@ -442,7 +445,7 @@ footer{background:var(--dark);padding:3rem 2rem 2rem}
               <div class="tl-date">Certification</div>
               <div class="tl-title">Coach certifi&eacute; ACTP &middot; RNCP Niveau 6</div>
               <div class="tl-org">Coaching Ways France</div>
-              <div class="tl-desc">Certification ACTP (Advanced Certified Training Program). 2 sp&eacute;cialisations&nbsp;: coaching d&rsquo;&eacute;quipe et Spirale Dynamique. 3 ans de pratique coaching.</div>
+              <div class="tl-desc">Certification ACTP (Advanced Certified Training Program). 2 sp&eacute;cialisations&nbsp;: coaching d&rsquo;&eacute;quipe et Spirale Dynamique. depuis 2021 coaching.</div>
             </div>
           </div>
           <div class="tl-item">
@@ -507,14 +510,14 @@ footer{background:var(--dark);padding:3rem 2rem 2rem}
     <h2 class="sec-title light reveal">Du triangle dramatique<br>au triangle de puissANCE</h2>
     <p class="sec-desc reveal" style="color:rgba(255,255,255,.45)">Inspir&eacute; de l&rsquo;Analyse Transactionnelle, ANCE coaching vous guide pour quitter les r&ocirc;les limitants et incarner pleinement protection, permission et puissance.</p>
     <div class="phil-grid">
-      <div class="phil-card reveal delay-1"><div class="phil-num">01</div><div class="phil-t">Protection</div><div class="phil-d">Poser des limites saines, des droits et des devoirs. Se s&eacute;curiser pour avancer sereinement et sans contrainte.</div></div>
-      <div class="phil-card reveal delay-2"><div class="phil-num">02</div><div class="phil-t">Permission</div><div class="phil-d">Se donner l&rsquo;autorisation d&rsquo;&ecirc;tre, de ressentir et d&rsquo;exprimer pleinement ses envies et aspirations profondes.</div></div>
-      <div class="phil-card reveal delay-3"><div class="phil-num">03</div><div class="phil-t">Puissance</div><div class="phil-d">Agir avec spontan&eacute;it&eacute;, authenticit&eacute; et pleine conscience de ses propres ressources et capacit&eacute;s int&eacute;rieures.</div></div>
+      <div class="phil-card reveal delay-1"><div class="phil-num">01</div><div class="phil-t">Protection</div><div class="phil-d">Pose des limites, des droits et des devoirs. S&eacute;curise pour avancer sereinement et sans contrainte.</div></div>
+      <div class="phil-card reveal delay-2"><div class="phil-num">02</div><div class="phil-t">Permission</div><div class="phil-d">Conseille, prot&egrave;ge, soutient et donne la permission d&rsquo;&ecirc;tre et d&rsquo;exprimer pleinement ses envies profondes.</div></div>
+      <div class="phil-card reveal delay-3"><div class="phil-num">03</div><div class="phil-t">Puissance</div><div class="phil-d">Spontan&eacute;e, authentique, exprime ses envies. R&eacute;sultante d&rsquo;un sentiment de s&eacute;curit&eacute; int&eacute;rieure et de la conscience de ses propres capacit&eacute;s.</div></div>
     </div>
     <div class="triangle-compare reveal">
-      <div class="tri-box drama"><div class="tri-box-title">Triangle dramatique</div><div class="tri-row">Victime &mdash; soumission</div><div class="tri-row">Sauveur &mdash; surprotection</div><div class="tri-row">Pers&eacute;cuteur &mdash; d&eacute;valorise</div></div>
+      <div class="tri-box drama"><div class="tri-box-title">Triangle dramatique</div><div class="tri-row"><strong>Victime</strong> &mdash; Influençable, doute, manque de confiance, s'autodétruit</div><div class="tri-row"><strong>Sauveur</strong> &mdash; Surprotège, étouffe, infantilise</div><div class="tri-row"><strong>Persécuteur</strong> &mdash; Dévalorise, freine, frustre</div></div>
       <div class="tri-arrow">&rarr;</div>
-      <div class="tri-box power"><div class="tri-box-title">Triangle de puissANCE</div><div class="tri-row">Protection &mdash; s&eacute;curit&eacute;</div><div class="tri-row">Permission &mdash; authenticit&eacute;</div><div class="tri-row">Puissance &mdash; spontan&eacute;it&eacute;</div></div>
+      <div class="tri-box power"><div class="tri-box-title">Triangle de puissANCE</div><div class="tri-row"><strong>Puissance</strong> &mdash; Spontanée, authentique, exprime ses envies</div><div class="tri-row"><strong>Permission</strong> &mdash; Conseille, protège, soutient, donne permission</div><div class="tri-row"><strong>Protection</strong> &mdash; Pose des limites, des droits, des devoirs, sécurise</div></div>
     </div>
     <div class="quote-block reveal" style="color:rgba(255,255,255,.35);background:rgba(255,255,255,.02);border-left-color:rgba(201,168,76,.35)">&laquo;&nbsp;Nous n&rsquo;avons pas toujours le choix de ce qui nous arrive, mais nous avons toujours le choix de la r&eacute;action.&nbsp;&raquo;</div>
   </div>
@@ -573,7 +576,7 @@ footer{background:var(--dark);padding:3rem 2rem 2rem}
     <div class="reveal">
       <div class="sec-eyebrow" style="margin-top:1.5rem">Les 8 comp&eacute;tences du coach certifi&eacute;</div>
       <h2 class="sec-title" style="font-size:1.9rem">Un standard de professionnalisme international</h2>
-      <p class="sec-desc" style="margin-bottom:0">L&rsquo;organisme de certification est la plus grande f&eacute;d&eacute;ration de coachs dans le monde (+&nbsp;20&nbsp;000 membres). Ces 8 comp&eacute;tences garantissent la qualit&eacute; de chaque accompagnement.</p>
+      <p class="sec-desc" style="margin-bottom:0">Notre organisme de certification regroupe la plus grande f&eacute;d&eacute;ration de coachs dans le monde (+&nbsp; membres). Ces 8 comp&eacute;tences garantissent la qualit&eacute; de chaque accompagnement.</p>
     </div>
     <div class="icf-grid" id="icfGrid"></div>
   </div>
@@ -657,7 +660,7 @@ footer{background:var(--dark);padding:3rem 2rem 2rem}
           <strong>Donn&eacute;es collect&eacute;es&nbsp;:</strong> Nom, email, t&eacute;l&eacute;phone via le formulaire de contact.<br/><br/>
           <strong>Utilisation&nbsp;:</strong> Ces donn&eacute;es sont utilis&eacute;es uniquement pour r&eacute;pondre &agrave; votre demande de coaching et ne sont pas transmises &agrave; des tiers.<br/><br/>
           <strong>Droits&nbsp;:</strong> Conform&eacute;ment au RGPD, vous disposez d&rsquo;un droit d&rsquo;acc&egrave;s, de rectification et de suppression de vos donn&eacute;es. Demande &agrave; adresser &agrave; ancecoaching@gmail.com.<br/><br/>
-          <strong>Conservation&nbsp;:</strong> Les donn&eacute;es sont conserv&eacute;es 3 ans maximum apr&egrave;s le dernier contact.
+          <strong>Conservation&nbsp;:</strong> Les donn&eacute;es sont conserv&eacute;es depuis 2021 maximum apr&egrave;s le dernier contact.
         </div>
       </div>
     </div>
@@ -698,7 +701,7 @@ footer{background:var(--dark);padding:3rem 2rem 2rem}
           <div class="form-group"><label class="form-label">Prestation(s) souhait&eacute;e(s)</label><input class="form-input" id="fSvcs" readonly style="background:var(--cream);cursor:default"/></div>
           <div class="form-group"><label class="form-label">Votre message *</label><textarea class="form-input form-textarea" id="fMsg" required placeholder="Parlez-moi de votre situation, vos objectifs, vos attentes..."></textarea></div>
           <button type="button" onclick="handleSubmit()" class="form-submit">Envoyer la demande &rarr;</button>
-          <p class="form-note">Ce bouton ouvrira votre client mail avec un message pr&eacute;-rempli pour S&eacute;bastien ROSIER.</p>
+          
         </form>
       </div>
     </div>
@@ -850,7 +853,7 @@ function renderFAQ() {
   var g = document.getElementById('faqGrid');
   FAQS.forEach(function(f, i) {
     var item = document.createElement('div');
-    item.className = 'faq-item reveal';
+    item.className = 'faq-item';
     item.innerHTML = '<div class="faq-q" onclick="toggleFaq(' + i + ')"><span>' + f.q + '</span><span class="faq-icon">+</span></div>' +
       '<div class="faq-a"><div class="faq-a-inner">' + f.a + '</div></div>';
     g.appendChild(item);
@@ -935,13 +938,19 @@ if (cSection) {
 (function() {
   var c = document.getElementById('particles');
   if (!c) return;
+  var sizes = [8,10,12,14,16,18,20,24,28,32,10,14,18,22,12,16,20,26,10,15];
   for (var i = 0; i < 20; i++) {
     var p = document.createElement('div');
     p.className = 'particle';
-    p.style.cssText = 'left:' + Math.random()*100 + '%;' +
-      '--dur:' + (6 + Math.random()*10) + 's;' +
-      '--delay:' + (Math.random()*8) + 's;' +
-      'width:' + (1 + Math.random()*2) + 'px;height:' + (1 + Math.random()*2) + 'px';
+    var sz = sizes[i];
+    var drift = (Math.random() - 0.5) * 80;
+    p.style.cssText = 
+      'left:' + (5 + Math.random()*90) + '%;' +
+      'bottom:' + (Math.random()*20) + '%;' +
+      '--dur:' + (8 + Math.random()*12) + 's;' +
+      '--delay:-' + (Math.random()*12) + 's;' +
+      '--drift:' + drift + 'px;' +
+      'width:' + sz + 'px;height:' + sz + 'px;';
     c.appendChild(p);
   }
 })();
@@ -949,6 +958,7 @@ if (cSection) {
 renderServices();
 renderMethods();
 renderFAQ();
+observeAll();
 
 
 
