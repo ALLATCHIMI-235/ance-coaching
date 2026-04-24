@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ancecoaching.fr/sitemap.xml
