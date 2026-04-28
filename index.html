@@ -938,15 +938,62 @@ function handleSubmit() {
   var btn = document.querySelector('.form-submit');
   if (btn) { btn.disabled = true; btn.textContent = 'Envoi en cours...'; }
   
+  // Email HTML stylisé pour Sébastien
+  var emailHtml = ''
+    + '<div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;background:#FAF8F5;padding:0;border-radius:12px;overflow:hidden;border:1px solid #E5E0D8">'
+    + '<div style="background:linear-gradient(135deg,#12121E,#1C1C2E);padding:30px;text-align:center;border-bottom:3px solid #C9A84C">'
+      + '<div style="color:#C9A84C;font-size:11px;letter-spacing:3px;text-transform:uppercase;margin-bottom:8px;font-weight:600">ANCE coaching</div>'
+      + '<h1 style="color:#fff;margin:0;font-size:22px;font-weight:400">Nouvelle demande de contact</h1>'
+      + '<p style="color:rgba(255,255,255,.6);margin-top:6px;font-size:13px">depuis ancecoaching.fr</p>'
+    + '</div>'
+    + '<div style="padding:30px">'
+      + '<p style="font-size:15px;color:#333;line-height:1.7;margin:0 0 24px">Bonjour Sébastien,</p>'
+      + '<p style="font-size:14px;color:#555;line-height:1.7;margin:0 0 28px">Vous avez reçu une nouvelle demande de contact via votre site internet. Voici les informations transmises :</p>'
+      + '<div style="background:#fff;border-radius:10px;padding:0;border:1px solid #E5E0D8;overflow:hidden">'
+        + '<div style="padding:14px 18px;border-bottom:1px solid #F0EBE3">'
+          + '<div style="font-size:11px;color:#C9A84C;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px">👤 Nom</div>'
+          + '<div style="font-size:15px;color:#1E1E1E;font-weight:500">' + nom + '</div>'
+        + '</div>'
+        + '<div style="padding:14px 18px;border-bottom:1px solid #F0EBE3">'
+          + '<div style="font-size:11px;color:#C9A84C;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px">✉️ Email</div>'
+          + '<div style="font-size:15px;color:#1E1E1E"><a href="mailto:' + email + '" style="color:#8B6914;text-decoration:none">' + email + '</a></div>'
+        + '</div>'
+        + '<div style="padding:14px 18px;border-bottom:1px solid #F0EBE3">'
+          + '<div style="font-size:11px;color:#C9A84C;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px">📞 Téléphone</div>'
+          + '<div style="font-size:15px;color:#1E1E1E">' + (tel || '<span style="color:#999;font-style:italic">Non renseigné</span>') + '</div>'
+        + '</div>'
+        + '<div style="padding:14px 18px;border-bottom:1px solid #F0EBE3">'
+          + '<div style="font-size:11px;color:#C9A84C;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:5px">🎯 Prestations souhaitées</div>'
+          + '<div style="font-size:14px;color:#1E1E1E;line-height:1.6">' + srv + '</div>'
+        + '</div>'
+        + '<div style="padding:14px 18px;background:#FAF8F5">'
+          + '<div style="font-size:11px;color:#C9A84C;letter-spacing:1px;text-transform:uppercase;font-weight:600;margin-bottom:8px">💬 Message</div>'
+          + '<div style="font-size:14px;color:#1E1E1E;line-height:1.7;white-space:pre-wrap">' + msg.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>') + '</div>'
+        + '</div>'
+      + '</div>'
+      + '<div style="margin-top:30px;padding:18px;background:rgba(201,168,76,.06);border-left:3px solid #C9A84C;border-radius:0 8px 8px 0">'
+        + '<p style="font-size:13px;color:#555;margin:0;line-height:1.6">'
+          + '<strong style="color:#1E1E1E">💡 Conseil :</strong> Pensez à répondre sous 48h pour maintenir votre engagement de qualité de service.'
+        + '</p>'
+      + '</div>'
+      + '<div style="margin-top:24px;text-align:center">'
+        + '<a href="mailto:' + email + '?subject=Re%3A%20Votre%20demande%20-%20ANCE%20coaching" style="display:inline-block;background:#C9A84C;color:#12121E;padding:12px 28px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px">Répondre à ' + nom.split(' ')[0] + '</a>'
+      + '</div>'
+    + '</div>'
+    + '<div style="background:#12121E;padding:20px;text-align:center;border-top:2px solid #C9A84C">'
+      + '<p style="color:#C9A84C;font-size:13px;margin:0 0 4px;font-weight:500">ANCE coaching</p>'
+      + '<p style="color:rgba(255,255,255,.5);font-size:11px;margin:0">Sébastien ROSIER · Coach professionnel certifié ACTP · RNCP Niv.6</p>'
+      + '<p style="color:rgba(255,255,255,.4);font-size:11px;margin:6px 0 0">ancecoaching.fr · ancecoaching@gmail.com · 06 86 30 96 79</p>'
+    + '</div>'
+  + '</div>';
+  
   var formData = new FormData();
   formData.append('access_key', 'b9a52818-24ad-47bf-89ab-931bbbdf7c4c');
-  formData.append('subject', 'Demande coaching - ' + nom);
-  formData.append('from_name', 'ANCE coaching - Site Web');
-  formData.append('name', nom);
-  formData.append('email', email);
-  formData.append('telephone', tel || 'Non renseigné');
-  formData.append('prestations_souhaitees', srv);
-  formData.append('message', msg);
+  formData.append('subject', 'Nouvelle demande de coaching - ' + nom);
+  formData.append('from_name', 'ANCE coaching');
+  formData.append('replyto', email);
+  formData.append('html', emailHtml);
+  formData.append('botcheck', '');
   
   fetch('https://api.web3forms.com/submit', {
     method: 'POST',
