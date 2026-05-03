@@ -940,33 +940,35 @@ function handleSubmit() {
   var msg = document.getElementById('fMsg').value;
   if (!nom || !email || !msg) { alert('Merci de remplir les champs obligatoires (*).'); return; }
   var sl = SVCS.filter(function(s) { return picks.indexOf(s.id) >= 0; });
-  var srv = sl.length > 0 ? sl.map(function(s) { return s.name + ' (' + s.tarif + ')'; }).join(', ') : 'Non précisé';
+  var srv = sl.length > 0 ? sl.map(function(s) { return s.name + ' (' + s.tarif + ')'; }).join(', ') : 'Non precise';
   
   var btn = document.querySelector('.form-submit');
   if (btn) { btn.disabled = true; btn.textContent = 'Envoi en cours...'; }
   
-  var formData = new FormData();
-  formData.append('access_key', 'b9a52818-24ad-47bf-89ab-931bbbdf7c4c');
-  formData.append('subject', '🟡 Nouvelle demande coaching — ' + nom);
-  formData.append('from_name', 'ANCE coaching - Site web');
-  formData.append('replyto', email);
-  formData.append('botcheck', '');
-  
-  // Champs structurés affichés proprement dans le mail Web3Forms
-  formData.append('Bonjour Sébastien', '');
-  formData.append('---', 'Voici une nouvelle demande de contact reçue via ancecoaching.fr');
-  formData.append('👤 Nom complet', nom);
-  formData.append('✉️ Email', email);
-  formData.append('📞 Téléphone', tel || 'Non renseigné');
-  formData.append('🎯 Prestations souhaitées', srv);
-  formData.append('💬 Message', msg);
-  formData.append(' ', ' ');
-  formData.append('💡 Rappel', 'Merci de répondre sous 48h pour maintenir votre engagement de qualité');
-  formData.append('🌐 Site', 'ancecoaching.fr');
+  // Construction du payload JSON pour eviter les problemes d encodage
+  var payload = {
+    access_key: 'b9a52818-24ad-47bf-89ab-931bbbdf7c4c',
+    subject: 'Nouvelle demande coaching - ' + nom,
+    from_name: 'ANCE coaching - Site Web',
+    replyto: email,
+    botcheck: '',
+    'Bonjour Sebastien': 'Voici une nouvelle demande de contact recue via ancecoaching.fr',
+    'Nom complet': nom,
+    'Email': email,
+    'Telephone': tel || 'Non renseigne',
+    'Prestations souhaitees': srv,
+    'Message': msg,
+    'Rappel': 'Merci de repondre sous 48h pour maintenir votre engagement de qualite de service',
+    'Site web': 'https://ancecoaching.fr'
+  };
   
   fetch('https://api.web3forms.com/submit', {
     method: 'POST',
-    body: formData
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(payload)
   })
   .then(function(response) { return response.json(); })
   .then(function(data) {
@@ -1062,14 +1064,16 @@ observeAll();
 
 <script>
 // Enregistrement du Service Worker - PWA
-if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/service-worker.js')
+    // Utiliser un chemin relatif pour eviter SecurityError sur GitHub Pages
+    navigator.serviceWorker.register('./service-worker.js', { scope: './' })
       .then(function(registration) {
-        console.log('[PWA] Service Worker enregistré avec succès', registration.scope);
+        console.log('[PWA] Service Worker enregistre avec succes:', registration.scope);
       })
       .catch(function(error) {
-        console.log('[PWA] Échec de l\'enregistrement:', error);
+        // Echec silencieux - le site fonctionne quand meme sans SW
+        console.log('[PWA] SW non enregistre:', error.message);
       });
   });
 }
