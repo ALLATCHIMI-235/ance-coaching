@@ -355,12 +355,12 @@ footer{background:var(--dark);padding:3rem 2rem 2rem}
 .method-modal-content::-webkit-scrollbar-thumb{background:var(--gold);border-radius:4px}
 .method-modal-content::-webkit-scrollbar-track{background:rgba(255,255,255,.05)}
 @keyframes modalScaleIn{from{opacity:0;transform:scale(.94) translateY(20px)}to{opacity:1;transform:none}}
-.method-modal-img{height:96vh;width:auto;max-width:none;border-radius:12px;box-shadow:0 20px 80px rgba(0,0,0,.7),0 0 0 1px rgba(201,168,76,.3);display:block;cursor:zoom-in;transition:width .3s ease, height .3s ease;flex-shrink:0;position:relative;z-index:1;margin:auto}
-.method-modal-img.zoomed{height:auto;width:140%;max-width:140%;cursor:zoom-out;transform:none}
+.method-modal-img{height:96vh;width:auto;max-width:none;border-radius:12px;box-shadow:0 20px 80px rgba(0,0,0,.7),0 0 0 1px rgba(201,168,76,.3);display:block;transition:none;flex-shrink:0;position:relative;z-index:1;margin:auto}
+
 .method-modal-close{position:fixed;top:1.5rem;right:1.5rem;width:48px;height:48px;border-radius:50%;background:var(--gold);color:var(--dark);border:none;font-size:26px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.5);transition:all .25s;z-index:10001;line-height:1}
 .method-modal-close:hover{background:var(--gold-l);transform:scale(1.1) rotate(90deg)}
-.method-modal-hint{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.4);color:var(--gold-l);padding:8px 18px;border-radius:30px;font-size:12px;letter-spacing:.05em;backdrop-filter:blur(10px);z-index:10001;font-family:'Outfit',sans-serif;display:flex;align-items:center;gap:8px}
-.method-modal-hint kbd{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.2);border-radius:4px;padding:1px 6px;font-size:11px;font-family:inherit}
+
+
 @media (max-width: 640px){
   .method-modal-close{top:-8px;right:-8px;width:38px;height:38px;font-size:20px}
 }
@@ -375,6 +375,17 @@ footer{background:var(--dark);padding:3rem 2rem 2rem}
   .method-modal-nav{width:42px;height:42px;font-size:18px}
   .method-modal-prev{left:.5rem}
   .method-modal-next{right:.5rem}
+}
+
+.method-modal-zoom-controls{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:rgba(18,18,30,.85);border:1px solid rgba(201,168,76,.4);border-radius:30px;padding:6px;display:flex;align-items:center;gap:4px;backdrop-filter:blur(10px);z-index:10001;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+.method-zoom-btn{width:36px;height:36px;border-radius:50%;background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);color:var(--gold);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;transition:all .2s;font-family:'Outfit',sans-serif;line-height:1;padding:0}
+.method-zoom-btn:hover{background:var(--gold);color:var(--dark);transform:scale(1.1);border-color:var(--gold)}
+.method-zoom-btn.method-zoom-reset{font-size:16px}
+.method-zoom-level{color:var(--gold-l);font-size:13px;font-weight:600;letter-spacing:.05em;padding:0 12px;font-family:'Outfit',sans-serif;min-width:48px;text-align:center;user-select:none}
+@media (max-width:640px){
+  .method-modal-zoom-controls{bottom:.75rem;padding:4px;gap:2px}
+  .method-zoom-btn{width:32px;height:32px;font-size:16px}
+  .method-zoom-level{font-size:12px;padding:0 8px;min-width:42px}
 }
 </style>
 <script type="application/ld+json">
@@ -1007,11 +1018,16 @@ function openMethodModal(imgKeys, name) {
       '<button class="method-modal-close" onclick="closeMethodModal()" aria-label="Fermer">&times;</button>' +
       '<button class="method-modal-nav method-modal-prev" id="methodModalPrev" onclick="changeModalImage(-1)" aria-label="Précédent">&#10094;</button>' +
       '<button class="method-modal-nav method-modal-next" id="methodModalNext" onclick="changeModalImage(1)" aria-label="Suivant">&#10095;</button>' +
-      '<div class="method-modal-content">' +
-        '<img class="method-modal-img" id="methodModalImg" src="" alt="" onclick="toggleZoom(this)"/>' +
+      '<div class="method-modal-content" id="methodModalScroll">' +
+        '<img class="method-modal-img" id="methodModalImg" src="" alt=""/>' +
       '</div>' +
       '<div class="method-modal-counter" id="methodModalCounter"></div>' +
-      '<div class="method-modal-hint">Cliquez sur l\'image pour zoomer · <kbd>Esc</kbd> pour fermer</div>';
+      '<div class="method-modal-zoom-controls">' +
+        '<button class="method-zoom-btn" onclick="zoomOut()" aria-label="Dézoomer">&minus;</button>' +
+        '<span class="method-zoom-level" id="methodZoomLevel">100%</span>' +
+        '<button class="method-zoom-btn" onclick="zoomIn()" aria-label="Zoomer">+</button>' +
+        '<button class="method-zoom-btn method-zoom-reset" onclick="zoomReset()" aria-label="Réinitialiser" title="Réinitialiser">&#x21bb;</button>' +
+      '</div>';
     document.body.appendChild(modal);
   }
   updateModalImage();
@@ -1025,7 +1041,15 @@ function updateModalImage() {
   var key = currentModalImages[currentModalIndex];
   img.src = METH_IMAGES[key];
   img.alt = currentModalName;
-  img.classList.remove('zoomed');
+  // Reset zoom à chaque changement d'image
+  currentZoom = 100;
+  img.style.width = '';
+  img.style.height = '';
+  img.style.maxWidth = '';
+  var label = document.getElementById('methodZoomLevel');
+  if (label) label.textContent = '100%';
+  var content = document.getElementById('methodModalScroll');
+  if (content) { content.scrollTop = 0; content.scrollLeft = 0; }
   
   // Counter
   var counter = document.getElementById('methodModalCounter');
@@ -1061,8 +1085,54 @@ function changeModalImage(direction) {
 }
 
 
+var currentZoom = 100;
+var MIN_ZOOM = 50;
+var MAX_ZOOM = 250;
+var ZOOM_STEP = 25;
+
+function applyZoom() {
+  var img = document.getElementById('methodModalImg');
+  var label = document.getElementById('methodZoomLevel');
+  if (!img) return;
+  img.style.height = 'auto';
+  img.style.width = currentZoom + '%';
+  img.style.maxWidth = 'none';
+  if (label) label.textContent = currentZoom + '%';
+}
+
+function zoomIn() {
+  if (currentZoom < MAX_ZOOM) {
+    currentZoom = Math.min(MAX_ZOOM, currentZoom + ZOOM_STEP);
+    applyZoom();
+  }
+}
+
+function zoomOut() {
+  if (currentZoom > MIN_ZOOM) {
+    currentZoom = Math.max(MIN_ZOOM, currentZoom - ZOOM_STEP);
+    applyZoom();
+  }
+}
+
+function zoomReset() {
+  currentZoom = 100;
+  var img = document.getElementById('methodModalImg');
+  if (img) {
+    img.style.width = '';
+    img.style.height = '';
+    img.style.maxWidth = '';
+  }
+  var label = document.getElementById('methodZoomLevel');
+  if (label) label.textContent = '100%';
+  // Reset scroll position
+  var content = document.getElementById('methodModalScroll');
+  if (content) { content.scrollTop = 0; content.scrollLeft = 0; }
+}
+
 function toggleZoom(img) {
-  img.classList.toggle('zoomed');
+  // Legacy compat — n'est plus utilisée mais on garde au cas où
+  if (currentZoom === 100) { currentZoom = 150; } else { currentZoom = 100; }
+  if (currentZoom !== 100) applyZoom(); else zoomReset();
 }
 function closeMethodModal() {
   var modal = document.getElementById('methodModal');
